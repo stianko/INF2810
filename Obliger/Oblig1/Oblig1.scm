@@ -22,17 +22,31 @@
 ;;   "paff!"
 ;;   (zero? (1 - 1)))
 ;;
-;; Denne evalueres til "piff!"
+;; Denne evalueres til "piff!". Dette fordi "or" vil evaluere til den kommer til det første sanne tilfellet.
+;; Det er også en syntaksfeil på den siste linjen (1 - 1).
 ;;
 ;;(and (= 1 2)
 ;; "piff!"
 ;; "paff!"
 ;; (zero? (1 - 1)))
 ;;
-;; Denne evalueres til #f.
+;; Denne evalueres til #f, fordi det første tilfellet ikke er sant. Det er i tillegg samme syntaksfeil i siste linje som på
+;; forrige prosedyre.
 ;;
-;; (if (positive? 42)       |
-;;   "poff!"                |
-;;   (i-am-undefined))      |
+;; (if (positive? 42)
+;;   "poff!"
+;;   (i-am-undefined))
 ;;
-;; Denne evalueres til "poff!"
+;; Denne evalueres til "poff!", fordi predikatet (positive? 42) er sant. Kun "poff!", altså konsekvensen, blir evaluert.
+;;
+;; Alle tre prosedyrene er special forms fordi de ikke evaluerer alle klausulene likt som standard scheme.
+;;
+;; (b)
+(define (sign x)
+  (if (< x 0)
+      -1
+      (if (= x 0)
+	  0
+	  (if (> x 0)
+      1))))
+(sign -4)
