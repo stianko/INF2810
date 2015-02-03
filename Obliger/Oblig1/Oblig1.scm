@@ -48,5 +48,13 @@
       (if (= x 0)
 	  0
 	  (if (> x 0)
-      1))))
-(sign -4)
+	      1))))
+
+(define (sign x)
+  (cond ((< x 0) -1)
+	((= x 0) 0)
+	((> x 0) 1)))
+(sign -0)
+;; (c)
+(define (sign x)
+  
