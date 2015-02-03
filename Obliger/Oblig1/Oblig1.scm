@@ -64,5 +64,24 @@
 	0)
    (and (> x 0)
 	1)))
-(sign 1000)
+
+;; Oppg. 2
+;; (a)
+(define (add1 x)
+  (+ x 1))
+(define (sub1 x)
+  (- x 1))
+
+;; (b)
+(define (plus x y)
+  (if (zero? y)
+      x
+      (add1 (plus x (sub1 y)))))
   
+
+;; (c)
+;; Halerekursiv
+(define (plus x y)
+  (if (zero? y)
+      x
+      (plus (add1 x) (sub1 y))))
