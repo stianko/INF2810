@@ -57,4 +57,12 @@
 (sign -0)
 ;; (c)
 (define (sign x)
+  (or
+   (and (< x 0)
+	-1)
+   (and (= x 0)
+	0)
+   (and (> x 0)
+	1)))
+(sign 1000)
   
