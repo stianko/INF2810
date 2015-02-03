@@ -65,7 +65,7 @@
    (and (> x 0)
 	1)))
 
-;; Oppg. 2
+;; Oppg. 3
 ;; (a)
 (define (add1 x)
   (+ x 1))
@@ -77,11 +77,28 @@
   (if (zero? y)
       x
       (add1 (plus x (sub1 y)))))
-  
-
 ;; (c)
-;; Halerekursiv
+;; Metoden i (b) er en rekursiv prosess.
+;; (add1 (plus 2 (sub1 3))
+;; (add1 (plus 2 2))
+;; (add1 (add1 (plus 2 (sub1 2))))
+;; (add1 (add1 (plus 2 1)))
+;; (add1 (add1 (add1 (plus 2 (sub1 1)))))
+;; (add1 (add1 (add1 (plus 2 0))))
+;; -------------------------------------------------
+;;  y er null, og prosessen slutter å kalle seg selv
+;; -------------------------------------------------
+;; (add1 (add1 (add1 2)))
+;; (add1 (add1 3))
+;; (add1 (4))
+;; 5
+;; Halerekursiv (iterativ prosess):
 (define (plus x y)
   (if (zero? y)
       x
       (plus (add1 x) (sub1 y))))
+;; (plus 2 3)
+;; (plus 3 2)
+;; (plus 4 1)
+;; (plus 5 0)
+;; 5
