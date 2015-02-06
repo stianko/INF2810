@@ -9,8 +9,8 @@
 ;; (c)
 ;; (* (2 + 2) 5) - Kjører ikke, ettersom infiksnotasjon ikke fungerer, som i forrige, ettersom et tall ikke er en operator
 ;; (d)
-;; (define bar (/ 4 2)) - Her setter vi navnet "bar" på en variabel som har verdi (/ 4 2), altså 2
-;; bar
+;; (define bar (/ 4 2)) - Her setter vi navnet "bar" på en variabel som har verdi (/ 4 2), altså 2.
+;; bar - returnerer 2
 ;; (e)
 ;; (- bar 2) - Her evalueres (- 2 2) som blir 0
 ;; (f)
@@ -39,7 +39,7 @@
 ;;
 ;; Denne evalueres til "poff!", fordi predikatet (positive? 42) er sant. Kun "poff!", altså konsekvensen, blir evaluert.
 ;;
-;; Alle tre prosedyrene er special forms fordi de ikke evaluerer alle klausulene likt som standard scheme.
+;; Alle tre prosedyrene er special forms fordi de ikke evaluerer alle klausulene likt som på generell form.
 ;;
 ;; (b)
 (define (sign x)
@@ -54,7 +54,7 @@
   (cond ((< x 0) -1)
 	((= x 0) 0)
 	((> x 0) 1)))
-(sign -0)
+
 ;; (c)
 (define (sign x)
   (or
@@ -78,7 +78,8 @@
       x
       (add1 (plus x (sub1 y)))))
 ;; (c)
-;; Metoden i (b) er en rekursiv prosess.
+;; Metoden i (b) er en rekursiv prosess av en rekursiv prosedyre.
+;; Rekursjonsstegen er vist her:
 ;; (add1 (plus 2 (sub1 3))
 ;; (add1 (plus 2 2))
 ;; (add1 (add1 (plus 2 (sub1 2))))
@@ -93,11 +94,12 @@
 ;; (add1 (4))
 ;; 5
 ;;
-;; Halerekursiv (iterativ prosess):
+;; Halerekursiv - iterativ prosess av rekursiv prosedyre:
 (define (plus x y)
   (if (zero? y)
       x
       (plus (add1 x) (sub1 y))))
+;; De iterative stegene:
 ;; (plus 2 3)
 ;; (plus 3 2)
 ;; (plus 4 1)
