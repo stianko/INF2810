@@ -8,7 +8,7 @@
 ;; (b)
 ;; (* (+ 2 2) (5)) - Kjører ikke, ettersom 5 ikke er en operator
 ;; (c)
-;; (* (2 + 2) 5) - Kjører ikke, ettersom infiksnotasjon ikke fungerer, som i forrige, ettersom et tall ikke er en operator
+;; (* (2 + 2) 5) - Kjører ikke, ettersom infiksnotasjon ikke fungerer, som i forrige, fordi et tall ikke er en operator
 ;; (d)
 ;; (define bar (/ 4 2)) - Her setter vi navnet "bar" på en variabel som har verdi (/ 4 2), altså 2.
 ;; bar - returnerer 2
