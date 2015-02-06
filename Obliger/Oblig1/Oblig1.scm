@@ -103,3 +103,14 @@
 ;; (plus 4 1)
 ;; (plus 5 0)
 ;; 5
+;;
+;; (d)
+
+(define (power-close-to b n)
+  (power-iter b n 1))
+(define (power-iter b n e)
+  (if (> (expt b e) n)
+      e
+      (power-iter b n (+ 1 e))))
+
+
