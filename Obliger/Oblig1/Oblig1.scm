@@ -1,6 +1,7 @@
 (require r5rs)
-;; Oblig 1 - INF2810
+;; Innlevering 1a - INF2810
 ;; Stian Kongsvik (stiako)
+
 ;; Oppg. 1
 ;; (a)
 ;; (* (+ 2 2) 5) - Her vil først (+ 2 2) evalueres til 4, så (* 4 5) til 20
@@ -115,4 +116,14 @@
       e
       (power-iter b n (+ 1 e))))
 
+;; Forenklet med blokkstruktur:
 
+(define (power-close-to b n)
+  (define (power-iter e)
+    (if (> (expt b e) n)
+	e
+	(power-iter (+ 1 e))))
+    (power-iter 1))
+
+;; Den er også forenklet med at (power-iter e) kun tar med ett parameter. Dette kan vi gjøre fordi
+;; b og n er frie parametre i den indre definisjonen av prosedyren.
