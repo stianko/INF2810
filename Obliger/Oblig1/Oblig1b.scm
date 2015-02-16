@@ -2,7 +2,7 @@
 ;; Innlevering 1b - INF2810
 ;; Stian Kongsvik (stiako)
 ;;
-;; Oppg. 1
+;; Oppg. 1 - Par og lister
 ;; (a)
 (cons 47 11)
 ;;
@@ -103,3 +103,39 @@
 ;;    |   1  |          |   2  |          |   3  |
 ;;    |      |          |      |          |      |
 ;;    +------+          +------+          +------+
+;;
+;; (f)
+;; (1 2 3 4)
+(caddr '(1 2 3 4))))
+;;
+;; (g)
+;; ((1 2) (3 4))
+(caadr '((1 2) (3 4)))
+;;
+;; (h)
+;; ((1) (2) (3) (4))
+(caaddr '((1) (2) (3) (4)))
+;;
+;; (i)
+(cons (cons 1 (cons 2 '())) (cons(cons 3 (cons 4 '())) '()))
+(list (list 1 2) (list 3 4))
+;;
+;; Oppg 2 - Rekursjon over lister og høyereordens prosedyrer
+;; (a)
+(define (length2 items)
+  (define (length-iter in out)
+    (if (null? in)
+	out
+	(length-iter (cdr in) (+ 1 out))))
+  (length-iter items 0))
+;;
+;; (b)
+(define (rev-list items)
+  (define (rev-iter in out)
+    (if (null? in)
+	out
+	(rev-iter (cdr in)
+		  (cons (car in) out))))
+  (rev-iter items '()))
+;;
+;; Forklar dette
