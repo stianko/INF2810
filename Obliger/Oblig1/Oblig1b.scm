@@ -106,7 +106,7 @@
 ;;
 ;; (f)
 ;; (1 2 3 4)
-(caddr '(1 2 3 4))))
+(caddr '(1 2 3 4))
 ;;
 ;; (g)
 ;; ((1 2) (3 4))
@@ -138,4 +138,8 @@
 		  (cons (car in) out))))
   (rev-iter items '()))
 ;;
-;; Forklar dette
+;; I denne oppgaven har jeg valgt å bruke halerekursjon, ettersom det enkelt vil
+;; lage en kopi av listen reversert, med like mange steg som antall elementer i listen.
+;; Eksempel: (1 2 3 4)
+;; I første steg vil den ta cons på 1 med '() og sende '(2 3 4) inn til neste iterasjon.
+;; Dette gjentar den til cdr av in er '().
