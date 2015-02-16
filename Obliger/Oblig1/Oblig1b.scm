@@ -141,5 +141,15 @@
 ;; I denne oppgaven har jeg valgt å bruke halerekursjon, ettersom det enkelt vil
 ;; lage en kopi av listen reversert, med like mange steg som antall elementer i listen.
 ;; Eksempel: (1 2 3 4)
-;; I første steg vil den ta cons på 1 med '() og sende '(2 3 4) inn til neste iterasjon.
-;; Dette gjentar den til cdr av in er '().
+;;
+;;  | in        | in til neste steg | out til neste steg
+;;  |           | (cdr in)          | (cons (car in) out)
+;; 1| (1 2 3 4) | (2 3 4)           | (1) 
+;; 2|   (2 3 4) | (3 4)             | (2 1)
+;; 3|     (3 4) | (4)               | (3 2 1)
+;; 4|        (4)| '()               | (4 3 2 1)
+;;
+;; (c)
+(define (ditch x items)
+	(cond ((null? items) '())
+	      ((= x (car items)) (ditch (cdr items)))))
