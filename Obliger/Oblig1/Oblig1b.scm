@@ -151,5 +151,9 @@
 ;;
 ;; (c)
 (define (ditch x items)
-	(cond ((null? items) '())
-	      ((= x (car items)) (ditch (cdr items)))))
+  (cond ((null? items) '())
+	((not (equal? x (car items)))
+	 (cons (car items)
+	       (ditch x (cdr items))))
+	(else (ditch x (cdr items)))))
+
