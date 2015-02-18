@@ -156,4 +156,10 @@
 	 (cons (car items)
 	       (ditch x (cdr items))))
 	(else (ditch x (cdr items)))))
-
+;;
+;; Kommentar "som forklarer hvorvidt du har brukt “vanlig” rekursjon eller halerekursjon. Beskriv og
+;; så hvordan den tilsvarende prosessens ressursbehov (tid/minne) vokser relativt til størrelsen på
+;; input."
+;;
+;; (d)
+(define (nth n items)
