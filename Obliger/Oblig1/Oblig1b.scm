@@ -163,3 +163,16 @@
 ;;
 ;; (d)
 (define (nth n items)
+  (define (nth-iter recitems acc)
+    (if (= n acc)
+	(car recitems)
+	(nth-iter (cdr recitems) (+ 1 acc))))
+  (nth-iter items 0))
+;;
+;; (e)
+(define (where x items)
+  (define (where-iter recitems acc)
+    (cond ((null? recitems) #f)
+	  ((= x (car recitems)) acc)
+	  (else (where-iter (cdr recitems) (+ 1 acc)))))
+    (where-iter items 0))
