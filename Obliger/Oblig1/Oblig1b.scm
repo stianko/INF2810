@@ -176,3 +176,11 @@
 	  ((= x (car recitems)) acc)
 	  (else (where-iter (cdr recitems) (+ 1 acc)))))
     (where-iter items 0))
+;;
+;; (f)
+(define (map2 proc list1 list2)
+  (cond ((null? list1) '())
+	((null? list2) '())
+	(else (cons (proc (car list1) (car list2))
+		    (map2 proc (cdr list1) (cdr list2))))))
+
