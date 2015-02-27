@@ -157,9 +157,9 @@
 	       (ditch x (cdr items))))
 	(else (ditch x (cdr items)))))
 ;;
-;; Kommentar "som forklarer hvorvidt du har brukt “vanlig” rekursjon eller halerekursjon. Beskriv og
-;; så hvordan den tilsvarende prosessens ressursbehov (tid/minne) vokser relativt til størrelsen på
-;; input."
+;; Her har jeg brukt "vanlig" rekursjon og som følge av dette vil den først lete gjennom hele
+;; listen før den vil begynne å "conse" elementene sammen. Dette gjør at den vil øke med 2x steg
+;; for hvert ekstra element i listen.
 ;;
 ;; (d)
 (define (nth n items)
