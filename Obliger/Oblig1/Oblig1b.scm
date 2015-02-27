@@ -183,4 +183,21 @@
 	((null? list2) '())
 	(else (cons (proc (car list1) (car list2))
 		    (map2 proc (cdr list1) (cdr list2))))))
-
+;;
+;; (g)
+(map2 (lambda (x y) (/ (+ x y) 2)) '(1 2 3 4) '(3 4 5))
+;;
+(map2 (λ (x y) (cond ((odd? x) #f)
+		     ((odd? y) #f)
+		     (else #t)))
+      '(1 2 3) '(1 2 3))
+;;
+;; (h)
+(define (both? proc)
+  (lambda (x y)
+    (and (proc x) (proc y))))
+;;
+;; (i)
+(define (self? proc)
+  (lambda (x)
+    (proc x x)))
