@@ -70,15 +70,37 @@
 	      (decode-tail-1 (cdr bits) next-branch finalmsg)))))
   (decode-tail-1 bits tree '()))
 
-(define sample-tree
-  (make-code-tree
-   (make-leaf 'ninjas 8)
-   (make-code-tree
-    (make-leaf 'fight 5)
-    (make-code-tree
-     (make-leaf 'night 1)
-     (make-leaf 'by 1)))))
-
-(define sample-code '(0 1 0 0 1 1 1 1 1 0))
 
 (decode-tail-rec sample-code sample-tree)
+
+;; (d)
+
+;; Resultatet blir '(night by ninjas fight ninjas), som er den originale
+;; beskjeden reversert.
+
+;; (e)      
+
+(define (encode msg tree)
+  (if (null? msg)
+      '()
+      (append (encode-symbol (car msg) tree)
+	      (encode (cdr msg) tree))))
+
+(define (encode-symbol symbol tree)
+(if (leaf? tree)
+    '()
+    (let ((current-branch (encode-branch symbol tree)))
+      (cons (car current-branch)
+	    (encode-symbol symbol (cadr current-branch))))))
+
+(define (encode-branch symbol tree)
+  (let ((left (left-branch tree))
+	(right (right-branch tree)))
+    (cond ((member? symbol (symbols left)) (list 0 left))
+	  ((member? symbol (symbols right)) (list 1 right))
+	  (else (error "Symbolet finnes ikke i kodeboken")))))
+
+;; (f)
+
+(define (grow-huffman-tree freqs)
+  
