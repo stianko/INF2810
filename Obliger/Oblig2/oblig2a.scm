@@ -35,11 +35,16 @@
 ;; (c)
 ;;
 ;; Resultatet blir '(6 -4 21 1/2).
-;; 
+;;
+;; Kallet på map oppretter en ny liste med elementer fra resultatet til lambda uttrykket.
+;; Hvert element i den nye listen er et resultat av (y x z), eller (a2 a1 a3).
+;;
+;; Kallet på map itererer gjennom listene a1-3 der lambda-uttrykket utfører prosedyren i a2 på
+;; elementene i a1 og a3 på tilsvarende indeks. lambda-uttrykket gjør at en kan skrive uttrykk med
+;; infiksnotasjon:
+;;
 ;; ((λ (x y z) (y x z)) (car a1) (car a2) (car a3))
 ;; alt. ((λ (x y z) (y x z)) 1 + 5)
-;; ----------------------------------------------------------------------
-;; En eller annen smart kommentar om infixnotasjon
 ;;
 ;; Oppgave 2
 ;; (a)
@@ -103,4 +108,10 @@
 ;; (f)
 
 (define (grow-huffman-tree freqs)
+  (successive-merge (make-leaf-set freqs)))
+
+(define (successive-merge sorted-set)
+  (adjoin-set (make-code-tree (car sorted-set)(cadr sorted-set)) (cddr sorted-set)))
   
+	
+
