@@ -111,7 +111,9 @@
   (successive-merge (make-leaf-set freqs)))
 
 (define (successive-merge sorted-set)
-  (adjoin-set (make-code-tree (car sorted-set)(cadr sorted-set)) (cddr sorted-set)))
-  
-	
-
+  (if (null? (cdr sorted-set))
+      (car sorted-set)
+      (successive-merge
+       (adjoin-set (make-code-tree (left-branch sorted-set)
+				   (right-branch sorted-set))
+		   (cddr sorted-set)))))
