@@ -129,14 +129,24 @@
 ;; (h)
 
 (define (huffman-leaves tree)
+  (define (huffman-leaves-1 tree items)
+      (let ((left (left-branch tree))
+            (right (right-branch tree)))
+        (if (leaf? left)
+          (cons (symbol-weight-list left) items)
+          (huffman-leaves-1 left items))
+        (if (leaf? right)
+          (cons (symbol-weight-list right) items)
+          (huffman-leaves-1 right items)))))
+
   
-  (let ((left (left-branch tree))
-	(right (right-branch tree)))
-    (cond ((leaf? left)
-	   ((huffman-leaves-1 left) (huffman-leaves right)))
-	  ((leaf? right)
-	   ((huffman-leaves-1 right) (huffman-leaves right))))))
+;;  (let ((left (left-branch tree))
+;;	(right (right-branch tree)))
+;;    (cond ((leaf? left)
+;;	   ((symbol-weight-list left) (huffman-leaves right)))
+;;	  ((leaf? right)
+;;	   ((symbol-weight-list right) (huffman-leaves right))))))
 	   
 
-(define (huffman-leaves-1 leaf)
+(define (symbol-weight-list leaf)
   (list (symbol-leaf leaf) (weight-leaf leaf)))
