@@ -92,11 +92,11 @@
 	      (encode (cdr msg) tree))))
 
 (define (encode-symbol symbol tree)
-(if (leaf? tree)
-    '()
-    (let ((current-branch (encode-branch symbol tree)))
-      (cons (car current-branch)
-	    (encode-symbol symbol (cadr current-branch))))))
+  (if (leaf? tree)
+      '()
+      (let ((current-branch (encode-branch symbol tree)))
+	(cons (car current-branch)
+	      (encode-symbol symbol (cadr current-branch))))))
 
 (define (encode-branch symbol tree)
   (let ((left (left-branch tree))
@@ -108,12 +108,35 @@
 ;; (f)
 
 (define (grow-huffman-tree freqs)
-  (successive-merge (make-leaf-set freqs)))
+  (grow-dat-shit (make-leaf-set freqs)))
 
-(define (successive-merge sorted-set)
+(define (grow-dat-shit sorted-set)
   (if (null? (cdr sorted-set))
       (car sorted-set)
-      (successive-merge
+      (grow-dat-shit
        (adjoin-set (make-code-tree (left-branch sorted-set)
 				   (right-branch sorted-set))
 		   (cddr sorted-set)))))
+
+;; (g)
+
+;; (grow-huffman-tree '((ninjas 57) (samurais 20) (fight 45) (night 12) (hide 3) (in 2) (ambush 2) (defeat 1) (the 5) (sword 4) (by 12) (assassin 1) (river 2) (forest 1) (wait 1) (poison 1)))
+;; For å kode denne meldingen brukes det 40 bits. Gjennomsnittslengden på hvert kodeord som brukes er 2.35.
+;; Det minste antallet tegn for å kode denne meldingen med fast lengde (3 bits) blir 17*3=51.
+;; Dette er fordi meldingen inneholder 5 unike tegn, og tre bits er minimum lengde for å generere fem
+;; unike bitstrenger.
+
+;; (h)
+
+(define (huffman-leaves tree)
+  
+  (let ((left (left-branch tree))
+	(right (right-branch tree)))
+    (cond ((leaf? left)
+	   ((huffman-leaves-1 left) (huffman-leaves right)))
+	  ((leaf? right)
+	   ((huffman-leaves-1 right) (huffman-leaves right))))))
+	   
+
+(define (huffman-leaves-1 leaf)
+  (list (symbol-leaf leaf) (weight-leaf leaf)))
