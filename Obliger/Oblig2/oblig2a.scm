@@ -137,7 +137,9 @@
           (huffman-leaves-1 left items))
         (if (leaf? right)
           (cons (symbol-weight-list right) items)
-          (huffman-leaves-1 right items)))))
+          (huffman-leaves-1 right items))))
+  (huffman-leaves-1 tree '())
+)
 
   
 ;;  (let ((left (left-branch tree))
