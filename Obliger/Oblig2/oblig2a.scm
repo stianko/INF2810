@@ -120,9 +120,9 @@
 
 ;; (g)
 
-;; (grow-huffman-tree '((ninjas 57) (samurais 20) (fight 45) (night 12) (hide 3) (in 2) (ambush 2) (defeat 1) (the 5) (sword 4) (by 12) (assassin 1) (river 2) (forest 1) (wait 1) (poison 1)))
-;; For å kode denne meldingen brukes det 40 bits. Gjennomsnittslengden på hvert kodeord som brukes er 2.35.
-;; Det minste antallet tegn for å kode denne meldingen med fast lengde (3 bits) blir 17*3=51.
+(define samurai-tree (grow-huffman-tree '((ninjas 57) (samurais 20) (fight 45) (night 12) (hide 3) (in 2) (ambush 2) (defeat 1) (the 5) (sword 4) (by 12) (assassin 1) (river 2) (forest 1) (wait 1) (poison 1))))
+;; For å kode denne meldingen brukes det 40 bits. Gjennomsnittslengden på hvert kodeord som brukes er 2.5.
+;; Det minste antallet tegn for å kode denne meldingen med fast lengde (3 bits) blir 16*3=48.
 ;; Dette er fordi meldingen inneholder 5 unike tegn, og tre bits er minimum lengde for å generere fem
 ;; unike bitstrenger.
 
@@ -130,16 +130,15 @@
 
 (define (huffman-leaves tree)
   (define (huffman-leaves-1 tree items)
-      (let ((left (left-branch tree))
-            (right (right-branch tree)))
-        (if (leaf? left)
-          (cons (symbol-weight-list left) items)
-          (huffman-leaves-1 left items))
-        (if (leaf? right)
-          (cons (symbol-weight-list right) items)
-          (huffman-leaves-1 right items))))
-  (huffman-leaves-1 tree '())
-)
+    (let ((left (left-branch tree))
+	  (right (right-branch tree)))
+      (if (leaf? left)
+	  (symbol-weight-list left)
+	  (huffman-leaves-1 left items))
+      (if (leaf? right)
+	  (symbol-weight-list right)
+	  (huffman-leaves-1 right items))))
+  (huffman-leaves-1 tree '()))
 
   
 ;;  (let ((left (left-branch tree))
@@ -151,4 +150,23 @@
 	   
 
 (define (symbol-weight-list leaf)
+;;  (display (list (symbol-leaf leaf) (weight-leaf leaf))))
   (list (symbol-leaf leaf) (weight-leaf leaf)))
+
+(define (huffman-leaves-2 tree)
+  (define items '())
+  (define (huffman-leaves-1 tree)
+;;    (newline)
+    (let ((left (left-branch tree))
+	  (right (right-branch tree)))
+      (if (leaf? left)
+	  (cons (symbol-weight-list left) items)
+	  (huffman-leaves-1 left))
+      (if (leaf? right)
+	  (cons (symbol-weight-list right) items)
+	  (huffman-leaves-1 right))
+      (display items)
+      ))
+  (huffman-leaves-1 tree)
+;;  (newline)
+  )

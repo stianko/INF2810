@@ -1,0 +1,113 @@
+Welcome to Racket v6.1.1.
+racket@> (💩 sample-tree)
+(ninjas 8)(fight 5)(night 1)(by 1)'(#<void>)
+racket@> (huffman-leaves sample-tree)
+(ninjas 8)(fight 5)(night 1)(by 1)'(#<void>)
+racket@> (huffman-leaves sample-tree)
+(ninjas 8)(fight 5)(night 1)(by 1)'(#<void>)
+racket@> (huffman-leaves sample-tree)
+(ninjas 8)(fight 5)(night 1)(by 1)'(#<void>)
+racket@> (huffman-leaves sample-tree)
+((ninjas 8))((fight 5))((night 1))((by 1))racket@> (huffman-leaves sample-tree)
+'((by 1))
+racket@> (huffman-leaves sample-tree)
+'(by 1)
+racket@> (huffman-leaves sample-tree)
+'(by 1)
+racket@> (huffman-leaves sample-tree)
+'(by 1)
+racket@> (huffman-leaves sample-tree)
+(ninjas 8)(fight 5)(night 1)(by 1)racket@> 
+racket@> (huffman-leaves-2 sample-tree)
+car: contract violation
+  expected: pair?
+  given: 'leaf
+  context...:
+   /Users/stian/repos/INF2810/Obliger/Oblig2/huffman.scm:9:0: leaf?
+   huffman-leaves-2
+   /Applications/Racket/collects/racket/private/misc.rkt:87:7
+(ninjas 8)racket@> (huffman-leaves-2 sample-tree)
+(ninjas 8)(fight 5)(night 1)(by 1)racket@> (huffman-leaves-2 sample-tree)
+(ninjas 8)(fight 5)(night 1)(by 1)racket@> (huffman-leaves-2 sample-tree)
+(ninjas 8)(fight 5)(night 1)(by 1)racket@> (huffman-leaves-2 sample-tree)
+append: contract violation
+  expected: list?
+  given: #<void>
+  context...:
+   huffman-leaves-1
+   /Applications/Racket/collects/racket/private/misc.rkt:87:7
+(ninjas 8)(fight 5)(night 1)(by 1)racket@> (append '() 2)
+2
+racket@> (append 2 '())
+append: contract violation
+  expected: list?
+  given: 2
+  context...:
+   /Applications/Racket/collects/racket/private/misc.rkt:87:7
+racket@> (append 'sdn '())
+append: contract violation
+  expected: list?
+  given: 'sdn
+  context...:
+   /Applications/Racket/collects/racket/private/misc.rkt:87:7
+racket@> (huffman-leaves-2 sample-tree)
+append: contract violation
+  expected: list?
+  given: #<void>
+  context...:
+   huffman-leaves-1
+   /Applications/Racket/collects/racket/private/misc.rkt:87:7
+(ninjas 8)(fight 5)(night 1)(by 1)racket@> (huffman-leaves-2 sample-tree)
+(ninjas 8)(fight 5)(night 1)(by 1)'((#<void> . #<procedure:list>) . #<procedure:list>)
+racket@> (huffman-leaves-2 sample-tree)
+'(((by 1) . #<procedure:list>) . #<procedure:list>)
+racket@> (huffman-leaves-2 sample-tree)
+'(((by 1)))
+racket@> (huffman-leaves-2 sample-tree)
+'(by 1)
+racket@> (huffman-leaves-2 sample-tree)
+(ninjas 8)(fight 5)(night 1)(by 1)racket@> (huffman-leaves-2 sample-tree)
+(ninjas 8)(fight 5)(night 1)(by 1)
+racket@> (define derp '())
+racket@> derp
+'()
+racket@> (cons '(1 2) '())
+'((1 2))
+racket@> (cons '(1 2) derp)
+'((1 2))
+racket@> derp
+'()
+racket@> (huffman-leaves-2 sample-tree)
+car: contract violation
+  expected: pair?
+  given: 'leaf
+  context...:
+   /Users/stian/repos/INF2810/Obliger/Oblig2/huffman.scm:9:0: leaf?
+   huffman-leaves-1
+   huffman-leaves-2
+   /Applications/Racket/collects/racket/private/misc.rkt:87:7
+(ninjas 8)(fight 5)(night 1)racket@> (huffman-leaves-2 sample-tree)
+car: contract violation
+  expected: pair?
+  given: 'leaf
+  context...:
+   /Users/stian/repos/INF2810/Obliger/Oblig2/huffman.scm:9:0: leaf?
+   huffman-leaves-2
+   /Applications/Racket/collects/racket/private/misc.rkt:87:7
+(ninjas 8)(fight 5)(night 1)racket@> (huffman-leaves sample-tree)
+(ninjas 8)(fight 5)(night 1)(by 1)racket@> (huffman-leaves sample-tree)
+(ninjas 8)(fight 5)(night 1)(by 1)racket@> (huffman-leaves-2 sample-tree)
+(ninjas 8)(fight 5)(night 1)(by 1)
+racket@> (huffman-leaves-2 samurai-tree)
+(night 12)(hide 3)(defeat 1)(river 2)(sword 4)(ambush 2)(in 2)(samurais 20)(poison 1)(wait 1)(forest 1)(assassin 1)(the 5)(by 12)(fight 45)(ninjas 57)
+racket@> (if #t (cons '(2) '(4)))
+stdin::190304: if: missing an "else" expression
+  in: (if #t (cons (quote (2)) (quote (4))))
+  context...:
+   /Applications/Racket/collects/racket/private/misc.rkt:87:7
+racket@> (if #t (cons '(2) '(4)) (cons '(1) '(3))
+	     )
+'((2) 4)
+racket@> (huffman-leaves-2 samurai-tree)
+(night 12)(hide 3)(defeat 1)(river 2)(sword 4)(ambush 2)(in 2)(samurais 20)(poison 1)(wait 1)(forest 1)(assassin 1)(the 5)(by 12)(fight 45)(ninjas 57)
+racket@> 
