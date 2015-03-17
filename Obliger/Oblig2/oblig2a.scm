@@ -122,51 +122,49 @@
 
 (define samurai-tree (grow-huffman-tree '((ninjas 57) (samurais 20) (fight 45) (night 12) (hide 3) (in 2) (ambush 2) (defeat 1) (the 5) (sword 4) (by 12) (assassin 1) (river 2) (forest 1) (wait 1) (poison 1))))
 ;; For å kode denne meldingen brukes det 40 bits. Gjennomsnittslengden på hvert kodeord som brukes er 2.5.
-;; Det minste antallet tegn for å kode denne meldingen med fast lengde (3 bits) blir 16*3=48.
-;; Dette er fordi meldingen inneholder 5 unike tegn, og tre bits er minimum lengde for å generere fem
-;; unike bitstrenger.
+;; Det minste antallet tegn for å kode denne meldingen med fast lengde (4 bits) blir 17*4=68.
+;; Dette er fordi meldingen inneholder 5 unike tegn, og fire bits er minimum lengde for å
+;; generere fem unike bitstrenger.
 
 ;; (h)
 
+(define (symbol-weight-list leaf)
+  (list (list (symbol-leaf leaf) (weight-leaf leaf))))
+
 (define (huffman-leaves tree)
-  (define (huffman-leaves-1 tree items)
-    (let ((left (left-branch tree))
-	  (right (right-branch tree)))
-      (if (leaf? left)
-	  (symbol-weight-list left)
-	  (huffman-leaves-1 left items))
-      (if (leaf? right)
-	  (symbol-weight-list right)
-	  (huffman-leaves-1 right items))))
-  (huffman-leaves-1 tree '()))
+  (define (huffman-leaves-1 current-branch)
+    (let ((left (left-branch current-branch))
+	  (right (right-branch current-branch)))
+      (if (leaf? current-branch)
+	  (symbol-weight-list current-branch)
+	  (append (huffman-leaves-1 left)
+		  (huffman-leaves-1 right)))))
+  (huffman-leaves-1 tree))
+
+;; (i)
+
+(define (expected-code-length tree)
+  (let ((bit-list (map (λ (x) (encode-symbol x tree)) (symbols tree))))
+    (reduce + 0 (map (λ (x y)
+		       (avg-codeword-length x tree y))
+		     (huffman-leaves tree) bit-list))))
+
+(define (symbol-weight pair)
+  (cadr pair))
+
+(define (avg-codeword-length pair tree symbol-bits)
+  (* (/ (symbol-weight pair) (weight tree))
+     (length symbol-bits)))
+
+(define (reduce proc init items)
+  (if (null? items)
+      init
+      (proc (car items)
+	    (reduce proc init (cdr items)))))
+     
+
 
   
-;;  (let ((left (left-branch tree))
-;;	(right (right-branch tree)))
-;;    (cond ((leaf? left)
-;;	   ((symbol-weight-list left) (huffman-leaves right)))
-;;	  ((leaf? right)
-;;	   ((symbol-weight-list right) (huffman-leaves right))))))
-	   
+;; (reduce + 0 (map (lambda (x y) (avg-codeword-length x tree y)) (symbols tree) bit-list))
 
-(define (symbol-weight-list leaf)
-;;  (display (list (symbol-leaf leaf) (weight-leaf leaf))))
-  (list (symbol-leaf leaf) (weight-leaf leaf)))
-
-(define (huffman-leaves-2 tree)
-  (define items '())
-  (define (huffman-leaves-1 tree)
-;;    (newline)
-    (let ((left (left-branch tree))
-	  (right (right-branch tree)))
-      (if (leaf? left)
-	  (cons (symbol-weight-list left) items)
-	  (huffman-leaves-1 left))
-      (if (leaf? right)
-	  (cons (symbol-weight-list right) items)
-	  (huffman-leaves-1 right))
-      (display items)
-      ))
-  (huffman-leaves-1 tree)
-;;  (newline)
-  )
+;; (reduce + 0 (map (λ (x y) (avg-codeword-length x samurai-tree y)) (huffman-leaves samurai-tree) bit-list;; ))
