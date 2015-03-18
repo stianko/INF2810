@@ -132,26 +132,31 @@
   (list (list (symbol-leaf leaf) (weight-leaf leaf))))
 
 (define (huffman-leaves tree)
-  (define (huffman-leaves-1 current-branch)
-    (let ((left (left-branch current-branch))
-	  (right (right-branch current-branch)))
-      (if (leaf? current-branch)
-	  (symbol-weight-list current-branch)
-	  (append (huffman-leaves-1 left)
-		  (huffman-leaves-1 right)))))
-  (huffman-leaves-1 tree))
+  (if (leaf? tree)
+      (symbol-weight-list tree)
+      (append (huffman-leaves (left-branch tree))
+	      (huffman-leaves (right-branch tree)))))
 
 ;; (i)
 
+;; Traverserer treet kun en gang, deretter utføres avg-codeword-length for hvert
+;; symbol og samler alle resultater i en ny liste. Deretter bruker vi reduce for
+;; å summere alle svarene.
 (define (expected-code-length tree)
-  (let ((bit-list (map (λ (x) (encode-symbol x tree)) (symbols tree))))
-    (reduce + 0 (map (λ (x y)
-		       (avg-codeword-length x tree y))
-		     (huffman-leaves tree) bit-list))))
+  (let ((indiv-result
+	 (map (lambda (x y) (avg-codeword-length x tree y))
+	      (huffman-leaves tree) (bit-code-list tree))))
+    (reduce + 0 indiv-result)))
 
+;; Returnerer vekten til et symbol
 (define (symbol-weight pair)
   (cadr pair))
 
+;; Returnerer en ny liste som inneholder bit-koder for alle symbolene i treet
+(define (bit-code-list tree)
+  (map (lambda (x) (encode-symbol x tree)) (symbols tree)))
+	
+;; Utfører formelen for relativ frekvens ganget med kodelengde per symbol.
 (define (avg-codeword-length pair tree symbol-bits)
   (* (/ (symbol-weight pair) (weight tree))
      (length symbol-bits)))
@@ -161,10 +166,3 @@
       init
       (proc (car items)
 	    (reduce proc init (cdr items)))))
-     
-
-
-  
-;; (reduce + 0 (map (lambda (x y) (avg-codeword-length x tree y)) (symbols tree) bit-list))
-
-;; (reduce + 0 (map (λ (x y) (avg-codeword-length x samurai-tree y)) (huffman-leaves samurai-tree) bit-list;; ))

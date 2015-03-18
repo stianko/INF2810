@@ -397,4 +397,35 @@ racket@> (expected-code-length sample-tree)
 8/5
 racket@> (expected-code-length samurai-tree)
 478/169
+racket@> (expected-code-length sample-tree)
+8/5
+racket@> (expected-code-length samurai-tree)
+478/169
+racket@> (expected-code-length samurai-tree)
+symbols-tree: undefined;
+ cannot reference undefined identifier
+  context...:
+   /Applications/Racket/collects/racket/private/misc.rkt:87:7
+racket@> (expected-code-length samurai-tree)
+map: contract violation
+  expected: list?
+  given: #<procedure:symbols>
+  argument position: 2nd
+  other arguments...:
+   #<procedure>
+   '((((leaf night 12) (((leaf hide 3) ((leaf defeat 1) (leaf river 2) (defeat river) 3) (hide defeat river) 6) ((leaf sword...
+  context...:
+   expected-code-length
+   /Applications/Racket/collects/racket/private/misc.rkt:87:7
+racket@> (expected-code-length samurai-tree)
+478/169
+racket@> (expected-code-length samurai-tree)
+478/169
+racket@> (huffman-leaves sample-tree)
+huffman-leaves-1: undefined;
+ cannot reference undefined identifier
+  context...:
+   /Applications/Racket/collects/racket/private/misc.rkt:87:7
+racket@> (huffman-leaves sample-tree)
+'((ninjas 8) (fight 5) (night 1) (by 1))
 racket@> 
