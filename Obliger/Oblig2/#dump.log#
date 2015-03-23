@@ -180,4 +180,17 @@ racket@> (c3)
 3
 racket@> (c3)
 4
+racket@> (define count 42)
+racket@> (define c1 (make-counter))
+racket@> (define c2 (make-counter))
+racket@> (c1)
+1
+racket@> (c1)
+2
+racket@> (c1)
+3
+racket@> count
+42
+racket@> (c2)
+1
 racket@> 
