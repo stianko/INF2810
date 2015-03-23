@@ -1,6 +1,8 @@
-;;Stian Kongsvik(stiako), Mathias Källström(mathiapk)
-
+;; Stian Kongsvik (stiako), Mathias Källström (mathiapk)
+;; Oblig 2a
+(require r5rs)
 (load "huffman.scm")
+
 ;; Oppgave 1
 ;; (a)
 
@@ -55,12 +57,10 @@
 	(else (member? elm (cdr lst)))))
 
 ;; (b)
-;; --------------------------Sjekk denne!!!----------------------------------------
 ;; Den ytre decode prosedyren tar i mot en liste med bits (0,1) pluss et Huffmantre.
 ;; Decode-1 tar i mot resten av listen med bits og den nåværende posisjonen i treet.
 ;; Grunnen til at vi trenger Decode-1 er for å dele treet opp i subtrær, og for å
 ;; ha muligheten til å hoppe til toppen av treet når den finner "leaf".
-;; --------------------------Sjekk denne!!!----------------------------------------
 
 ;; (c)
 
@@ -73,15 +73,19 @@
 	  (if (leaf? next-branch)
 	      (decode-tail-1 (cdr bits) tree (cons (symbol-leaf next-branch) finalmsg))
 	      (decode-tail-1 (cdr bits) next-branch finalmsg)))))
-  (decode-tail-1 bits tree '()))
-
+  (reverse (decode-tail-1 bits tree '())))
 
 (decode-tail-rec sample-code sample-tree)
 
 ;; (d)
 
-;; Resultatet blir '(night by ninjas fight ninjas), som er den originale
-;; beskjeden reversert.
+;; Resultatet blir '(ninjas fight ninjas by night). Halerekursive prosedyrer
+;; returnerer i utgangspunktet en reversert liste, men ved å bruke "reverse"
+;; på listen som halerekursjonen returnerer får vi den riktige beskjeden.
+;; Vi kunne i stedet valgt å bruke append, men det hadde økt kompleksiteten
+;; kvadratisk, ettersom append må gå gjennom hele listen for hver rekursjon.
+;; Med å bruke reverse gjør vi bare en ekstra halerekursjon på lista, som er
+;; like mange steg som lengden av lista.
 
 ;; (e)      
 
@@ -108,12 +112,12 @@
 ;; (f)
 
 (define (grow-huffman-tree freqs)
-  (grow-dat-shit (make-leaf-set freqs)))
+  (grow-tree (make-leaf-set freqs)))
 
-(define (grow-dat-shit sorted-set)
+(define (grow-tree sorted-set)
   (if (null? (cdr sorted-set))
       (car sorted-set)
-      (grow-dat-shit
+      (grow-tree
        (adjoin-set (make-code-tree (left-branch sorted-set)
 				   (right-branch sorted-set))
 		   (cddr sorted-set)))))
@@ -166,3 +170,5 @@
       init
       (proc (car items)
 	    (reduce proc init (cdr items)))))
+
+;; For at denne formelen skal stemme, må den den relative frekvensen per symbol i meldingen stemme overens med den relative frekvensen i treet.

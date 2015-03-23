@@ -428,4 +428,32 @@ huffman-leaves-1: undefined;
    /Applications/Racket/collects/racket/private/misc.rkt:87:7
 racket@> (huffman-leaves sample-tree)
 '((ninjas 8) (fight 5) (night 1) (by 1))
+racket@> (decode-tail-rec samurai-tree)
+decode-tail-rec: arity mismatch;
+ the expected number of arguments does not match the given number
+  expected: 2
+  given: 1
+  arguments...:
+   '((((leaf night 12) (((leaf hide 3) ((leaf defeat 1) (leaf river 2) (defeat river) 3) (hide defeat river) 6) ((leaf sword 4) ((leaf ambush 2) (leaf in 2) (ambush in) 4) (sword ambush in) 8) (hide defeat river sword ambush in) 14) (night hide defeat ...
+  context...:
+   /Applications/Racket/collects/racket/private/misc.rkt:87:7
+racket@> sample-code
+racket@> 
+racket@> 
+racket@> 
+racket@> 
+racket@> sample-code
+'(0 1 0 0 1 1 1 1 1 0)
+racket@> (decode-tail-rec sample-code samurai-tree)
+'(ninjas by samurais)
+racket@> (decode-tail-rec '(0 1 0 1 1 1 0 1 1 0 1 1 1) samurai-tree)
+'(by ninjas fight ninjas samurais)
+racket@> (decode-tail-rec '(0 1 0 1 1 1 0 1 1 0 1 1 1 1) samurai-tree)
+'(by ninjas fight ninjas samurais)
+racket@> (decode-tail-rec '(0 1 0 1 1 1 0 1 1 0 1 1 1 1 1) samurai-tree)
+'(ninjas by ninjas fight ninjas samurais)
+racket@> (decode-tail-rec '(1 1) samurai-tree)
+'(ninjas)
+racket@> (decode-tail-rec '(1) samurai-tree)
+'()
 racket@> 
