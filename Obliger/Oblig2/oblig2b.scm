@@ -18,7 +18,7 @@
 ;; (b)
 ;; -------------------------------------------------------------
 ;; -----------------------Fancy diagram-------------------------
-;; Sjekk side 242 i SICP, dette gidder vi ikke
+;; Sjekk side 246 i SICP, dette gidder vi ikke
 ;; -------------------------------------------------------------
 
 ;; Oppg. 2
@@ -66,23 +66,48 @@
 ;; Etter første kallet på set-car! får vi en nested list. 
 ;; Når vi da kaller set-car! på den indre listen i bah (car bah) 
 ;; setter vi kun car av den indre listen til å peke på 42, 
-;; ikke car av bah. 
+;; ikke car av bah. Fordi "begge listene" her peker på samme liste
+;; vil car i begge endres til å peke på 42.
 
 ;; (c)
 
-(define (cycle1? list)
-  (let ((templist '()))
-    (define (list-iter rest-list)
-      (cond ((null? rest-list) #f)
-	    ((memq (car rest-list) templist) #t)
-	   ;; ((list? list)#f)
-	    (else (set! templist (cons (car rest-list) templist))
-		  (list-iter (cdr rest-list)))))
-    (list-iter list)))
-
-(define (cycle? list)
+(define (cycle? lst)
   (define (list-iter rest-list counted)
     (cond ((null? rest-list) #f)
 	  ((memq rest-list counted) #t)
 	  (else (list-iter (cdr rest-list) (cons rest-list counted)))))
-  (list-iter list '()))
+  (list-iter lst '()))
+
+;; (d)
+
+;; Definisjonen av en liste i scheme sier at den er endelig
+;; og termineres av den tomme listen. Dermed vil verken sirkulære lister
+;; eller par bli oppfattet som lister ved bruk av predikatet "list?".
+
+;; (e)
+
+(define (last-pair x)
+  (if (null? (cdr x))
+      x
+      (last-pair (cdr x))))
+
+(define (make-ring x)
+  (let ((ring x))
+    (set-cdr! (last-pair ring) ring)
+    ring))
+
+(define (top ring)
+  (car ring))
+
+(define (right-rotate! ring)
+  2)
+
+(define (left-rotate! ring)
+  2)
+
+(define (insert! ring)
+  1)
+
+(define (delete! ring)
+  1)
+
