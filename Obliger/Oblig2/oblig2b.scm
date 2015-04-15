@@ -91,8 +91,14 @@
       x
       (last-pair (cdr x))))
 
-(define (make-ring x)
-  (let ((ring x))
+(define (backup lst)
+  (if (null? lst)
+      '()
+      (cons (car lst)
+	    (backup (cdr lst)))))
+
+(define (make-ring list)
+  (let ((x (backup list)))
     (set-cdr! (last-pair x) x)
     (define (top)
       (car x))
@@ -109,19 +115,20 @@
     (define (right-rotate!)
       (reverse!)(left-rotate!)(reverse!))
     (define (delete!)
-      ;;(set! )
-      2)
+      (set-car! x (cadr x))
+      (set-cdr! (last-ring-pair (cdr x) (cdr x)) (cddr x)))
     (define (insert! elm)
-      (set! x (cons (car elm) x)))
+      (set-cdr! x (cons (car x) (cdr x)))
+      (set-car! x (car elm)))
     (define (show) x)
     (define (pass-message message . r)
       (cond ((eq? message 'top) (top))
 	    ((eq? message 'show) (show))
 	    ((eq? message 'left-rotate!) (left-rotate!))
 	    ((eq? message 'right-rotate!) (right-rotate!))
-	    ((eq? message 'delete!) (delete!))
+	    ((eq? message 'delete!) (delete!) (top))
 	    ((eq? message 'reverse!) (reverse!) x)
-	    ((eq? message 'insert!) (insert! r) x)))
+	    ((eq? message 'insert!) (insert! r) (top))))
     pass-message))
 
 (define (top ring)
@@ -139,9 +146,12 @@
 (define (right-rotate! ring)
   (ring 'right-rotate!)(top ring))
 
-(define (insert! ring)
-  1)
+(define (insert! ring elm)
+  (ring 'insert! elm))
 
 (define (delete! ring)
-  2)
+  (ring 'delete!))
 
+;; (f)
+;; Implementasjonen av left-rotate! bruker konstant tid, og er lite kompleks (O(k)).
+;; right-rotate! er linæer men gjør to reverse-rekursjoner, og blir da O(2n)
