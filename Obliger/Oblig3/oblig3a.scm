@@ -8,22 +8,23 @@
 
 ;;Oppgave 1
 ;;(a & b)
+(define original-table (make-table))
 
 (define (mem call proc)
-  (let ((table (make-table)))
+  (let ((table (make-table))
+	(original-proc proc))
     (define (memoize)
-      (lambda args
-	(let ((alrdy-computed (lookup args table)))
-	  (or alrdy-computed
-	      (let ((result (apply proc args)))
-		(insert! args result table)
-		result)))))
+      (let ((new-proc
+	     (lambda args
+	       (let ((alrdy-computed (lookup args table)))
+		 (or alrdy-computed
+		     (let ((result (apply proc args)))
+		       (insert! args result table)
+		       result))))))
+	(insert! new-proc original-proc original-table)
+	new-proc))
     (define (unmemoize)
-      backup)
+      (lookup proc original-table))
     (cond ((equal? call 'memoize)(memoize))
 	  ((equal? call 'unmemoize)(unmemoize))
-	  (else (display "Invalid procedure call")))))
-
-
-
-
+	            (else (display "Invalid procedure call")))))
