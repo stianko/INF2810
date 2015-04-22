@@ -1,0 +1,6 @@
+(require r5rs)
+(print-as-expression #f)
+(print-mpair-curly-braces #f)
+(load "prekode3a.scm")
+
+(define poop 💩)
