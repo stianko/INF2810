@@ -1,6 +1,6 @@
 (require r5rs)
-;; (print-as-expression #f)
-;; (print-mpair-curly-braces #f)
+(print-as-expression #f)
+(print-mpair-curly-braces #f)
 (load "prekode3a.scm")
 
 ;; Stian Kongsvik (stiako) & Mathias Källström (mathiapk)
@@ -52,6 +52,7 @@
   (newline))
     
 ;; Oppg. 2
+
 ;; (a)
 
 (define (list-to-stream list)
@@ -82,7 +83,6 @@
 	(else (check-for-empty? (cdr streams)))))
 
 ;; (c)
-
 ;; Om vi bare bytter ut prosedyrekallene med stream-versjonene vil vi få problemer
 ;; når vi kommer med en uendelig strøm, fordi den aldri vil stoppe. En løsning kan
 ;; være å ha en eq?-sjekk for å stoppe rekursjonen, eller bruke stream-interval.
