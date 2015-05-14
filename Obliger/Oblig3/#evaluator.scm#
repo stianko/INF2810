@@ -26,6 +26,10 @@
 	  (else (iter-or (cdr rest-exp)))))
   (iter-or (cdr exp)))
   
+;;(b)
+
+(define (if-chooser exp env)
+  
 
 ;;; "Metacicular evaluator", basert på koden i seksjon 4.1.1-4.1.4 i SICP.
 ;;; Del av innlevering 3b i INF2810, vår 2015.
