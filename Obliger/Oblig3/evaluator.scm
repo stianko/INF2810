@@ -71,7 +71,6 @@
    (get-let-explist (let-parameters exp))))
 
 (define (eval-let exp env)
-  (display (make-full-lambda exp))
   (mc-eval (make-full-lambda exp) env))
 
 (define (get-let-varlist exp)
@@ -83,11 +82,46 @@
   (if (null? exp)
       '()
       (cons (cadar exp) (get-let-explist (cdr exp)))))
-	        
-	    
-	 
 
-;;; "Metacicular evaluator", basert på koden i seksjon 4.1.1-4.1.4 i SICP.
+;; (d)
+
+(define (let-chooser exp env)
+  (if (equal? '= (caddr exp))
+      (eval-new-let exp env)
+      (eval-let exp env)))
+
+(define (new-let-body exp)
+  (if (null? (cdr exp))
+      (car exp)
+      (new-let-body (cdr exp))))
+
+(define (make-new-full-lambda exp)
+  (cons
+   (make-lambda (get-new-let-varlist exp)
+		(list (new-let-body exp)))
+   (get-new-let-explist exp)))
+		
+
+(define (get-new-let-varlist exp)
+  (define (rek-var rest-exp)
+    (cond ((equal? (car rest-exp) 'in)'())
+	  ((equal? (car rest-exp) 'and)
+	   (cons (cadr rest-exp) (rek-var (cddddr rest-exp))))
+	  (else (error "HOPELESS SYNTAX"))))
+  (cons (cadr exp) (rek-var (cddddr exp))))
+
+(define (get-new-let-explist exp)
+  (define (rek-exp rest-exp)
+    (cond ((equal? (caddr rest-exp) 'in)(cons (cadr rest-exp) '()))
+	  ((equal? (car rest-exp) '=)
+	   (cons (cadr rest-exp) (rek-exp (cddddr rest-exp))))
+	  (else (error "MORE HOPELESS SYNTAX"))))
+  (cons (cadddr exp) (rek-exp (cddr (cddddr exp)))))
+
+(define (eval-new-let exp env)
+  (mc-eval (make-new-full-lambda exp) env))
+
+;;; "Metacircular evaluator", basert på koden i seksjon 4.1.1-4.1.4 i SICP.
 ;;; Del av innlevering 3b i INF2810, vår 2015.
 ;; 
 ;; Last hele filen inn i Scheme. For å starte read-eval-print loopen og 
@@ -160,7 +194,7 @@
         ((cond? exp) (mc-eval (cond->if exp) env))
 	((and? exp) (eval-and exp env));;Lagt til 3a
 	((or? exp) (eval-or exp env));;Lagt til 3a
-	((let? exp) (eval-let exp env))))
+	((let? exp) (let-chooser exp env))));;Lagt til 3c/d
 
 
 (define (special-form? exp)
