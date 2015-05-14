@@ -126,6 +126,21 @@
 (define (eval-new-let exp env)
   (mc-eval (make-new-full-lambda exp) env))
 
+;; (e)
+
+(define (while? exp)
+  (tagged-list? exp 'while))
+
+(define (while-predicate exp)
+  (cadr exp))
+
+(define (while-procedure exp)
+  (caddr exp))
+
+(define (eval-while exp env)
+  (if (true? (while-predicate exp))
+      (mc-eval (while-procedure exp) env)))
+
 ;;; "Metacircular evaluator", basert på koden i seksjon 4.1.1-4.1.4 i SICP.
 ;;; Del av innlevering 3b i INF2810, vår 2015.
 ;; 
@@ -199,7 +214,9 @@
         ((cond? exp) (mc-eval (cond->if exp) env))
 	((and? exp) (eval-and exp env));;Lagt til 3a
 	((or? exp) (eval-or exp env));;Lagt til 3a
-	((let? exp) (let-chooser exp env))));;Lagt til 3c/d
+	((let? exp) (let-chooser exp env));;Lagt til 3c/d
+	((while? exp) (eval-while exp env))));;Lagt til 3e
+
 
 
 (define (special-form? exp)
@@ -213,6 +230,7 @@
 	((and? exp) #t) ;; oppg 3 a
 	((or? exp) #t)  ;; oppg 3 a
 	((let? exp) #t) ;; oppg 3 c
+	((while? exp) #t) ;; oppg 3 e
         (else #f)))
 
 (define (list-of-values exps env)

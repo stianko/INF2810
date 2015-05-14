@@ -63,3 +63,21 @@
 ;; Står øverst i evaluator.scm
 ;;
 ;; (b)
+;;
+;; Står øverst i evaluator.scm
+;; Vi har også endret kallet i eval-special-form til å
+;; kallet på if-chooser dersom (if? exp), slik at vi beholder den originale eval-if.
+;;
+;; (c)
+;;
+;; Står øverst i evaluator.scm
+;; Vi har også gjort endringer i special-form? og eval-special-form
+;;
+;; (d)
+;;
+;; Står øverst i evaluator.scm
+;;
+;; (e)
+;;x = 1
+;;while (x < 100){ x++ } 
+
