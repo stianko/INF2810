@@ -101,22 +101,27 @@
 		(list (new-let-body exp)))
    (get-new-let-explist exp)))
 		
+(define (get-next-symbol exp)
+  (cddddr exp))
+
+(define (get-first-= exp)
+  (cddr (cddddr exp)))
 
 (define (get-new-let-varlist exp)
   (define (rek-var rest-exp)
     (cond ((equal? (car rest-exp) 'in)'())
 	  ((equal? (car rest-exp) 'and)
-	   (cons (cadr rest-exp) (rek-var (cddddr rest-exp))))
+	   (cons (cadr rest-exp) (rek-var (get-next-symbol rest-exp))))
 	  (else (error "HOPELESS SYNTAX"))))
-  (cons (cadr exp) (rek-var (cddddr exp))))
+  (cons (cadr exp) (rek-var (get-next-symbol exp))))
 
 (define (get-new-let-explist exp)
   (define (rek-exp rest-exp)
     (cond ((equal? (caddr rest-exp) 'in)(cons (cadr rest-exp) '()))
 	  ((equal? (car rest-exp) '=)
-	   (cons (cadr rest-exp) (rek-exp (cddddr rest-exp))))
+	   (cons (cadr rest-exp) (rek-exp (get-next-symbol rest-exp))))
 	  (else (error "MORE HOPELESS SYNTAX"))))
-  (cons (cadddr exp) (rek-exp (cddr (cddddr exp)))))
+  (cons (cadddr exp) (rek-exp (get-first-= exp))))
 
 (define (eval-new-let exp env)
   (mc-eval (make-new-full-lambda exp) env))
