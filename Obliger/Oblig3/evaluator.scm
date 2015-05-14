@@ -45,16 +45,44 @@
 (define (eval-new-if exp env)
   (if (true? (mc-eval (if-predicate exp) env))
       (mc-eval (new-if-consequent exp) env)
-      (if-iter (new-if-alternative exp) env)))
+      (elseif-check (new-if-alternative exp) env)))
 
-(define (if-iter exp env)
+(define (elseif-check exp env)
   (cond ((equal? 'elseif (car exp))
 	 (eval-new-if exp env))
 	((equal? 'else (car exp))
 	 (mc-eval (new-if-else-exp exp) env))
-	(else 42)))
+	(else (error "Horrible syntax"))))
 	      
-	      
+;; (c)
+
+(define (let? exp)
+  (tagged-list? exp 'let))
+
+(define (let-body exp)
+  (caddr exp))
+
+(define (let-parameters exp)
+  (cadr exp))
+
+(define (make-full-lambda exp)
+  (cons
+   (make-lambda (get-let-varlist (let-parameters exp)) (list (let-body exp)))
+   (get-let-explist (let-parameters exp))))
+
+(define (eval-let exp env)
+  (display (make-full-lambda exp))
+  (mc-eval (make-full-lambda exp) env))
+
+(define (get-let-varlist exp)
+  (if (null? exp)
+      '()
+      (cons (caar exp) (get-let-varlist (cdr exp)))))
+
+(define (get-let-explist exp)
+  (if (null? exp)
+      '()
+      (cons (cadar exp) (get-let-explist (cdr exp)))))
 	        
 	    
 	 
@@ -131,7 +159,9 @@
          (eval-sequence (begin-actions exp) env))
         ((cond? exp) (mc-eval (cond->if exp) env))
 	((and? exp) (eval-and exp env));;Lagt til 3a
-	((or? exp) (eval-or exp env))));;Lagt til 3a
+	((or? exp) (eval-or exp env));;Lagt til 3a
+	((let? exp) (eval-let exp env))))
+
 
 (define (special-form? exp)
   (cond ((quoted? exp) #t)
@@ -143,6 +173,7 @@
         ((cond? exp) #t)
 	((and? exp) #t) ;; oppg 3 a
 	((or? exp) #t)  ;; oppg 3 a
+	((let? exp) #t) ;; oppg 3 c
         (else #f)))
 
 (define (list-of-values exps env)
