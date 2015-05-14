@@ -26,6 +26,38 @@
 	  (else (iter-or (cdr rest-exp)))))
   (iter-or (cdr exp)))
   
+;;(b)
+
+(define (if-chooser exp env)
+  (if (equal? 'then (caddr exp))
+      (eval-new-if exp env)
+      (eval-if exp env)))
+
+(define (new-if-consequent exp)
+  (cadddr exp))
+
+(define (new-if-alternative exp)
+  (cddddr exp))
+
+(define (new-if-else-exp exp)
+  (cadr exp))
+
+(define (eval-new-if exp env)
+  (if (true? (mc-eval (if-predicate exp) env))
+      (mc-eval (new-if-consequent exp) env)
+      (if-iter (new-if-alternative exp) env)))
+
+(define (if-iter exp env)
+  (cond ((equal? 'elseif (car exp))
+	 (eval-new-if exp env))
+	((equal? 'else (car exp))
+	 (mc-eval (new-if-else-exp exp) env))
+	(else 42)))
+	      
+	      
+	        
+	    
+	 
 
 ;;; "Metacicular evaluator", basert på koden i seksjon 4.1.1-4.1.4 i SICP.
 ;;; Del av innlevering 3b i INF2810, vår 2015.
@@ -90,7 +122,7 @@
   (cond ((quoted? exp) (text-of-quotation exp))
         ((assignment? exp) (eval-assignment exp env))
         ((definition? exp) (eval-definition exp env))
-        ((if? exp) (eval-if exp env))
+        ((if? exp) (if-chooser exp env))
         ((lambda? exp)
          (make-procedure (lambda-parameters exp)
                          (lambda-body exp)
@@ -123,12 +155,6 @@
   (if (true? (mc-eval (if-predicate exp) env))
       (mc-eval (if-consequent exp) env)
       (mc-eval (if-alternative exp) env)))
-
-(define (eval-if2 exp env)
-  (cond ((true? (mc-eval (if-predicate exp) env))
-	 (mc-eval (cadddr exp) env))
-	((equal? 'elseif (elseif? (cddr exp)))
-      (mc-eval (if-alternative exp) env))))
 
 (define (eval-sequence exps env)
   (cond ((last-exp? exps) (mc-eval (first-exp exps) env))
