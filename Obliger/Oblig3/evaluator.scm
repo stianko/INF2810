@@ -1,3 +1,6 @@
+;; Oblig 3 b
+;; Mathias Källström (mathiapk) og Stian Kongsvik (stiako)
+
 ;; Egen kode:
 ;; Oppg. 3
 ;; (a)

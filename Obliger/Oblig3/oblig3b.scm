@@ -1,4 +1,4 @@
-;;(require r5rs)
+(require r5rs)
 ;;(print-as-expression #f)
 ;;(print-mpair-curly-braces #f)
 ;;(load "evaluator.scm")
@@ -77,7 +77,5 @@
 ;;
 ;; Står øverst i evaluator.scm
 ;;
-;; (e)
-;;x = 1
-;;while (x < 100){ x++ } 
+
 
